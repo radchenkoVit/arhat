@@ -1,0 +1,7 @@
+DROP TABLE if EXISTS users;
+
+CREATE TABLE users (
+    id IDENTITY,
+    name VARCHAR(100) NOT NULL,
+    CONSTRAINT users_PK PRIMARY KEY (id)
+);
