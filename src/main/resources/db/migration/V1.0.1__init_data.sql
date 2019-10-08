@@ -14,6 +14,7 @@ CREATE TABLE users (
     id IDENTITY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     roles_id INT NOT NULL,
     CONSTRAINT users_PK PRIMARY KEY (id),
     CONSTRAINT users_roles_FK FOREIGN KEY (roles_id) REFERENCES roles

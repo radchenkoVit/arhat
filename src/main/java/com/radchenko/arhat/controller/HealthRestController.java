@@ -12,4 +12,9 @@ public class HealthRestController {
     public String health() {
         return "Up and running";
     }
+
+    @GetMapping(value = "/private")
+    public String privateContent() {
+        return "Private Content";
+    }
 }

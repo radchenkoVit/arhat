@@ -12,4 +12,9 @@ public class ExceptionHandlerController {
     public ResponseEntity<Object> handleNotFoundEntity(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(value = {BrokenRequestException.class})
+    public ResponseEntity<Object> handleBrokenRequestData(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
