@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>12</java.version>
+		<mapper.version>2.3.5</mapper.version>
 	</properties>
 
 	<dependencies>
@@ -80,6 +81,13 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.10</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!--   make entity -> to dto object   -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${mapper.version}</version>
 		</dependency>
 	</dependencies>
 
