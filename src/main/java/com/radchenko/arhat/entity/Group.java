@@ -8,12 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "groups")
-@Getter
-@Setter
-@EqualsAndHashCode(of = "id")
-public class Group {
-    @Id
-    private Long id;
-}
+//@Entity
+//@Table(name = "groups")
+//@Getter
+//@Setter
+//@EqualsAndHashCode(of = "id")
+//public class Group {
+//    @Id
+//    private Long id;
+//}
