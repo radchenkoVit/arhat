@@ -1,4 +1,4 @@
-package com.radchenko.arhat.controller;
+package com.radchenko.arhat.controller.rest;
 
 import com.radchenko.arhat.service.UserService;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;

@@ -1,4 +1,4 @@
-package com.radchenko.arhat.controller;
+package com.radchenko.arhat.controller.rest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
