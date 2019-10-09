@@ -2,6 +2,7 @@ package com.radchenko.arhat.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.radchenko.arhat.config.security.SecurityConstants;
+import com.radchenko.arhat.service.security.UserPrincipal;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -46,7 +47,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication auth) {
-        String userName =((User) auth.getPrincipal()).getUsername();
+        String userName =((UserPrincipal) auth.getPrincipal()).getUsername();
 
         String token = Jwts.builder().setSubject(userName)
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
