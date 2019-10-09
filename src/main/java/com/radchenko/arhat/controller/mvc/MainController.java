@@ -10,4 +10,9 @@ public class MainController {
     public String main() {
         return "index";
     }
+
+    @GetMapping(value = "/register")
+    public String register() {
+        return "register";
+    }
 }
