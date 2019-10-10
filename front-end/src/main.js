@@ -17,5 +17,6 @@ axios.interceptors.response.use(
 new Vue({
   router,
   store,
+  axios,
   render: h => h(App)
 }).$mount('#app')

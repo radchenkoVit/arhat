@@ -9,8 +9,8 @@
         <form @submit.prevent="submitForm">
           <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
           <div class="form-group">
-            <label for="username">Email address</label>
-            <input type="email" class="form-control" id="username" name="username" v-model="form.username" />
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" v-model="form.email" />
           </div>
           <div class="form-group">
             <label for="password">Password</label>
@@ -49,7 +49,7 @@ export default {
   data: function () {
     return {
       form: {
-        username: '',
+        email: '',
         password: ''
       },
       errorMessage: ''
@@ -59,11 +59,15 @@ export default {
     submitForm () {
       loginService
         .register(this.form)
-        .then(() => {
+        .then((data) => {
+          // localStorage.token = req.data.token
+          console.log(data)
+          localStorage.dataFromReq = data
           this.$router.push({ name: 'HomePage' })
         })
         .catch(error => {
           this.errorMessage = 'Failed to login. Reason: ' + (error.message ? error.message : 'Uknown') + '.'
+          // delete localStorage.token
         })
     }
   }
