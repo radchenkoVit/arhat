@@ -50,9 +50,9 @@ export default {
     return {
       form: {
         username: '',
-        password: '',
-        errorMessage: ''
-      }
+        password: ''
+      },
+      errorMessage: ''
     }
   },
   methods: {
@@ -60,7 +60,7 @@ export default {
       loginService
         .register(this.form)
         .then(() => {
-          this.$router.push({ name: 'App' })
+          this.$router.push({ name: 'HomePage' })
         })
         .catch(error => {
           this.errorMessage = 'Failed to login. Reason: ' + (error.message ? error.message : 'Uknown') + '.'
