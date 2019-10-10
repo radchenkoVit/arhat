@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .anyRequest().permitAll()
                 .and()
-                    .formLogin().permitAll()
+                    .formLogin().loginPage("/vue/login").permitAll()
                 .and()
                     .logout().permitAll();
 

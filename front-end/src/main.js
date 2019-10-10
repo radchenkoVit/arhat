@@ -6,7 +6,6 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = '/api'
 axios.defaults.headers.common.Accept = 'application/json'
 axios.interceptors.response.use(
   response => response,
