@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +30,7 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
+    @Transactional(readOnly = true)
     public UserDto findByEmailContains(String email) {
         if (email != null && !email.isBlank()) {
             throw new BrokenRequestException("Email is empty");
@@ -40,6 +42,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundEntityException("User Not Found"));
     }
 
+    @Transactional(readOnly = true)
     public List<UserDto> findAll() {
         return userRepository
                 .findAll()
@@ -48,6 +51,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public UserDto createUser(UserDto user) {
         if (user.getId() != null) {
             throw new BrokenRequestException("Id should be empty");
