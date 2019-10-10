@@ -19,7 +19,7 @@
           <button type="submit" class="btn btn-primary btn-block">Sign in</button>
           <p class="text-center text-muted">
             Don't have account
-            <a href="/vue/register">Create account</a>
+            <a href="/register">Create account</a>
           </p>
         </form>
       </div>

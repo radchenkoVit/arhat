@@ -28,7 +28,7 @@
           </p>
           <p class="text-center text-muted">
             Already have an account?
-            <a href="/vue/login">Sign in</a>
+            <a href="/login">Sign in</a>
           </p>
         </form>
       </div>
