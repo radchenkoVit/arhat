@@ -13,7 +13,7 @@ CREATE TABLE roles (
 CREATE TABLE users (
     id IDENTITY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     roles_id INT NOT NULL,
     CONSTRAINT users_PK PRIMARY KEY (id),
