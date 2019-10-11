@@ -17,4 +17,9 @@ public class ExceptionHandlerController {
     public ResponseEntity<Object> handleBrokenRequestData(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = {UserNotRegisteredException.class})
+    public ResponseEntity<Object> handleUserNotRegisteredException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 }

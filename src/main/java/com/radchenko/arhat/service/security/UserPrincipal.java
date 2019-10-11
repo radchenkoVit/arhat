@@ -4,8 +4,7 @@ import com.radchenko.arhat.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 public class UserPrincipal implements UserDetails {
     private User user;
@@ -16,7 +15,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();//TODO: FIXME
+        GrantedAuthority authority =  Optional
+                .of(user.getRole())
+                .map(role -> (GrantedAuthority) role::getName)
+                .orElse(null);
+
+        return Collections.singletonList(authority);
     }
 
     @Override

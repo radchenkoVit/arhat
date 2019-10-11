@@ -1,4 +1,4 @@
-package com.radchenko.arhat.controller;
+package com.radchenko.arhat.controller.rest;
 
 import com.radchenko.arhat.service.UserService;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
@@ -28,11 +28,5 @@ public class UserRestController {
     public ResponseEntity<UserDto> findByEmail(@RequestParam String email) {
         UserDto user = userService.findByEmailContains(email);
         return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody UserDto user) {
-        UserDto createdUser = userService.createUser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 }
