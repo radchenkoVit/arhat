@@ -2,10 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="register-form">
-        <div class="logo-wrapper">
-          <img class="logo" src="/static/images/logo.png" />
-          <div class="tagline">Open source group management tool</div>
-        </div>
+        <Logo/>
         <form @submit.prevent="submitForm">
           <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
           <div class="form-group">
@@ -19,30 +16,19 @@
           <button type="submit" class="btn btn-primary btn-block">Sign in</button>
           <p class="text-center text-muted">
             Don't have account
-            <a href="/register">Create account</a>
+            <a href="/registration">Create account</a>
           </p>
         </form>
       </div>
     </div>
-    <footer class="footer">
-      <span class="copyright">&copy; 2018 Arhat-do.com</span>
-      <ul class="footer-links list-inline float-right">
-        <li class="list-inline-item">
-          <a href="#">About</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Terms of Service</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Privacy Policy</a>
-        </li>
-      </ul>
-    </footer>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import loginService from '@/services/login'
+import Logo from '@/components/Logo'
+import Footer from '@/components/PageFooter'
 
 export default {
   name: 'LoginPage',
@@ -54,6 +40,10 @@ export default {
       },
       errorMessage: ''
     }
+  },
+  components: {
+    Logo,
+    Footer
   },
   methods: {
     submitForm () {

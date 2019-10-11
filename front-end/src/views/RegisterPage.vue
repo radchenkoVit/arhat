@@ -2,10 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="register-form">
-        <div class="logo-wrapper">
-          <img class="logo" src="/static/images/logo.png" />
-          <div class="tagline">Open source task management tool</div>
-        </div>
+        <Logo/>
         <form @submit.prevent="submitForm">
           <div v-show="errorMessage" class="alert alert-danger failed">{{ errorMessage }}</div>
           <div class="form-group">
@@ -33,25 +30,14 @@
         </form>
       </div>
     </div>
-    <footer class="footer">
-      <span class="copyright">&copy; 2018 Arhat-do.com</span>
-      <ul class="footer-links list-inline float-right">
-        <li class="list-inline-item">
-          <a href="#">About</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Terms of Service</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Privacy Policy</a>
-        </li>
-      </ul>
-    </footer>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import registrationService from '@/services/registration'
+import Logo from '@/components/Logo'
+import Footer from '@/components/PageFooter'
 
 export default {
   name: 'RegisterPage',
@@ -64,6 +50,10 @@ export default {
         errorMessage: ''
       }
     }
+  },
+  components: {
+    Logo,
+    Footer
   },
   methods: {
     submitForm () {

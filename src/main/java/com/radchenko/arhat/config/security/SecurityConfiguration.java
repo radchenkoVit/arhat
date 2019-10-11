@@ -1,6 +1,5 @@
 package com.radchenko.arhat.config.security;
 
-import com.radchenko.arhat.config.security.filter.AuthenticationFilter;
 import com.radchenko.arhat.config.security.filter.AuthorizationFilter;
 import com.radchenko.arhat.config.security.filter.JwtAuthenticationFilter;
 import com.radchenko.arhat.service.security.UserDetailService;
@@ -34,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/*").permitAll()
                     .antMatchers("/h2_console/**").permitAll()
                     .antMatchers("/api/health/private").authenticated().and()
-                .addFilterAt(new JwtAuthenticationFilter("/api/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new JwtAuthenticationFilter("/api/auth/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(new AuthorizationFilter(authenticationManager()))
                 .authorizeRequests()
                 .and()

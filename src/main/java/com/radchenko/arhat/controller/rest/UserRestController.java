@@ -29,10 +29,4 @@ public class UserRestController {
         UserDto user = userService.findByEmailContains(email);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
-    @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody UserDto user) {
-        UserDto createdUser = userService.createUser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-    }
 }

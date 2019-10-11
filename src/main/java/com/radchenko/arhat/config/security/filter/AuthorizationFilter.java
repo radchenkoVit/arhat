@@ -1,9 +1,12 @@
 package com.radchenko.arhat.config.security.filter;
 
 import com.radchenko.arhat.config.security.SecurityConstants;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -12,7 +15,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -43,13 +48,18 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
 
         token = token.replace(SecurityConstants.TOKEN_PREFIX, "");
 
-        String user = Jwts.parser()
+        Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.TOKEN_SECRET)
                 .parseClaimsJws(token)
-                .getBody().getSubject();
+                .getBody();
+
+        String user = claims.getSubject();
+        Collection<? extends GrantedAuthority> authorities = Stream.of(claims.get("authorities").toString())
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
 
         if (user != null) {
-            return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            return new UsernamePasswordAuthenticationToken(user, null, authorities);
         }
 
         return null;

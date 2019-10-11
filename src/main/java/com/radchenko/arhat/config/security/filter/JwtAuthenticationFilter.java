@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.radchenko.arhat.config.security.SecurityConstants;
 import com.radchenko.arhat.service.security.UserPrincipal;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,9 +48,11 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication auth) {
-        String userName =((UserPrincipal) auth.getPrincipal()).getUsername();
+        UserPrincipal user = (UserPrincipal) auth.getPrincipal();
 
-        String token = Jwts.builder().setSubject(userName)
+        String token = Jwts.builder()
+                .setSubject(user.getUsername())
+                .claim("authorities", user.getAuthorities())
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
