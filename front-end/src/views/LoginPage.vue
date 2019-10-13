@@ -38,7 +38,8 @@ export default {
         email: '',
         password: ''
       },
-      errorMessage: ''
+      errorMessage: '',
+      token: ''
     }
   },
   components: {
@@ -47,18 +48,21 @@ export default {
   },
   methods: {
     submitForm () {
-      loginService
-        .register(this.form)
-        .then((data) => {
-          // localStorage.token = req.data.token
-          console.log(data)
-          localStorage.dataFromReq = data
-          this.$router.push({ name: 'HomePage' })
-        })
-        .catch(error => {
-          this.errorMessage = 'Failed to login. Reason: ' + (error.message ? error.message : 'Uknown') + '.'
-          // delete localStorage.token
-        })
+      loginService.register(this.form).then(() => {
+        this.$router.push({ name: 'HomePage' })
+      }).catch((error) => {
+        this.errorMessage = error.message
+      })
+    }
+  },
+  mounted () {
+    if (localStorage.getItem('token')) {
+      try {
+        this.token = JSON.parse(localStorage.getItem('token'))
+      } catch (e) {
+        localStorage.removeItem('token')
+        this.token = ''
+      }
     }
   }
 }
