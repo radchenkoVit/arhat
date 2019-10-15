@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import loginService from '@/services/login'
 import Logo from '@/components/Logo'
 import Footer from '@/components/PageFooter'
+import userService from '@/services/test/userservice'
 
 export default {
   name: 'LoginPage',
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     submitForm () {
-      loginService.register(this.form).then(() => {
+      userService.login(this.form).then(() => {
         this.$router.push({ name: 'HomePage' })
       }).catch((error) => {
         this.errorMessage = error.message
@@ -56,6 +56,7 @@ export default {
     }
   },
   mounted () {
+    // should check if it's token valid for example
     if (localStorage.getItem('token')) {
       try {
         this.token = JSON.parse(localStorage.getItem('token'))

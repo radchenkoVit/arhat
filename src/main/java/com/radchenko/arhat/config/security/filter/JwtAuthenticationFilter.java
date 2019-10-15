@@ -49,6 +49,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication auth) {
         UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+        String role = user.getAuthorities().iterator().next().getAuthority();
 
         String token = Jwts.builder()
                 .setSubject(user.getUsername())
@@ -58,5 +59,6 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 .compact();
 
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader("roles", role);
     }
 }

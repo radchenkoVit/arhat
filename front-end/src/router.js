@@ -45,16 +45,21 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const { roles } = to.meta
-  const currentUserRoles = UserService.userRoles
+  const authificated = UserService.authificatedSubject ? UserService.authificatedSubject.value : null
+  const currentUserRole = UserService.userRoles ? UserService.userRoles.replace(/"/g, '') : null
   const currentUserToken = UserService.userToken
 
+  if (authificated === false) {
+    return next({ path: '/login' })
+  }
+
   // eslint-disable-next-line eqeqeq, will be okey if values Falthy type
-  if (currentUserToken === false || currentUserRoles === false) {
+  if (currentUserToken === false || currentUserRole === false) {
     return next({ path: '/login' })
   }
 
   if (roles) {
-    if (roles.length && !roles.includes(currentUserRoles)) {
+    if (!roles.includes(currentUserRole)) {
       return next({ path: '/401' })
     }
   }

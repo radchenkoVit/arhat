@@ -30,7 +30,7 @@ public class RegistrationService {
         User user = mapper.map(request, User.class);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(roleRepository.findById(1L).get());//TODO: think
+        user.setRole(roleRepository.findById(2L).get());//TODO: think
         userRepository.save(user);
     }
 }
