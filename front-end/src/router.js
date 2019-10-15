@@ -7,6 +7,7 @@ import AdminPage from '@/views/AdminPage'
 import NotFoundPage from '@/views/NotFound'
 import Role from '@/model/role'
 import UserService from '@/services/test/userservice'
+import ForbiddenPage from '@/views/Forbidden'
 
 Vue.use(Router)
 
@@ -35,10 +36,14 @@ const router = new Router({
     component: AdminPage,
     meta: { roles: [Role.ADMIN] }
   }, {
-    path: '/401',
-    name: 'NotFoundPage',
+    path: '/forbidden',
+    name: 'forbidden',
+    component: ForbiddenPage
+  }, {
+    path: '/404',
     component: NotFoundPage
-
+  }, {
+    path: '*', redirect: '/404'
   }]
 }
 )
@@ -60,7 +65,7 @@ router.beforeEach((to, from, next) => {
 
   if (roles) {
     if (!roles.includes(currentUserRole)) {
-      return next({ path: '/401' })
+      return next({ name: 'forbidden' })
     }
   }
 
