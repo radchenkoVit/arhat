@@ -12,7 +12,7 @@
 
       <div class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a v-on:click="logOut" class="nav-link"> LogOut </a>
+          <a v-on:click="logout" class="nav-link"> LogOut </a>
         </li>
       </div>
       </nav>
@@ -31,7 +31,7 @@ export default {
     }
   },
   methods: {
-    logOut () {
+    logout () {
       userService.logout().then(() => {
         this.$router.push({ name: 'LoginPage' })
       }).catch((error) => {

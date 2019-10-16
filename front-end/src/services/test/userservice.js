@@ -3,9 +3,8 @@ import { BehaviorSubject } from 'rxjs'
 
 const tokenName = 'user_token'
 const roles = 'roles'
-// eslint-disable-next-line no-unused-vars
-var authificated = false
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line no-unused-vars// eslint-disable-next-line no-undef
+const authificatedSubject = new BehaviorSubject(JSON.stringify(localStorage.getItem('authificated')))
 const currentUserToken = new BehaviorSubject(JSON.stringify(localStorage.getItem(tokenName)))
 class UserService {
   get userToken () {
@@ -21,7 +20,7 @@ class UserService {
   }
 
   get isAuthificated () {
-    return authificated
+    return authificatedSubject.value
   }
 
   login (user) {
@@ -29,7 +28,7 @@ class UserService {
       localStorage.setItem(tokenName, JSON.stringify(response.headers['authorization']))
       localStorage.setItem(roles, JSON.stringify(response.headers['roles']))
       currentUserToken.next(response.headers['authorization'])
-      authificated = true
+      authificatedSubject.next(true)
     })
   }
 
@@ -38,7 +37,7 @@ class UserService {
       localStorage.removeItem(tokenName)
       localStorage.removeItem(roles)
       currentUserToken.next(null)
-      authificated = false
+      authificatedSubject.next(false)
     })
   }
 }

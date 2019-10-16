@@ -1,9 +1,17 @@
 <template>
-  <div><h1 class="page-title">Admin Page</h1></div>
+  <div>
+    <Header/>
+    <h1 class="page-title">Admin Page</h1>
+  </div>
 </template>
 
 <script>
+import Header from '@/components/PageHeader'
+
 export default {
-  name: 'AdminPage'
+  name: 'AdminPage',
+  components: {
+    Header
+  }
 }
 </script>

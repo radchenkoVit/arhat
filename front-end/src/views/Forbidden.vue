@@ -10,7 +10,7 @@
                         <div class="mb-4 lead">
                             Unathorized! Access to this resourse is denied.
                         </div>
-                        <a href="/" class="btn btn-link">Back to Home</a>
+                        <a href="/home" class="btn btn-link">Back to Home</a>
                     </div>
                 </div>
             </div>
@@ -19,10 +19,10 @@
 </template>
 <script>
 export default {
-    name: 'forbidden'
+  name: 'forbidden'
 }
 </script>
-<style>
+
+<style lang="less" scoped>
 
 </style>
-
