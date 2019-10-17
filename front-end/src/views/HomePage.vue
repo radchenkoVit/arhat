@@ -1,9 +1,44 @@
 <template>
-  <div><h1 class="page-title">Home Page</h1></div>
+  <div>
+      <Header/>
+      <h1 class="page-title">Home Page</h1>
+      <button v-on:click="admin">Admin click</button>
+      <button v-on:click="user">User click</button>
+      <button v-on:click="anybode">Authorized click</button>
+      <p v-if="responseString"> {{ responseString }} </p>
+  </div>
 </template>
 
 <script>
+import Header from '@/components/PageHeader'
+import axios from 'axios'
+
 export default {
-  name: 'HomePage'
+  name: 'HomePage',
+  data: function () {
+    return {
+      responseString: ''
+    }
+  },
+  components: {
+    Header
+  },
+  methods: {
+    admin () {
+      return axios.post('/api/secure/admin').then(response => {
+        this.responseString = response.data
+      })
+    },
+    user () {
+      return axios.post('/api/secure/useradmin').then(response => {
+        this.responseString = response.data
+      })
+    },
+    anybode () {
+      return axios.post('/api/health/private').then(response => {
+        this.responseString = response.data
+      })
+    }
+  }
 }
 </script>

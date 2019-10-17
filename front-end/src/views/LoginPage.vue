@@ -8,10 +8,19 @@
           <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" v-model="form.email" />
+            <div class="field-error" v-if="$v.form.email.$dirty">
+              <div class="error" v-if="!$v.form.email.required">Email is required</div>
+              <div class="error" v-if="!$v.form.email.maxLength">Max length is 100 symbols</div>
+            </div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" v-model="form.password" />
+            <div class="field-error" v-if="$v.form.password.$dirty">
+              <div class="error" v-if="!$v.form.password.required">Password is required</div>
+              <div class="error" v-if="!$v.form.password.minLength">Min length is 2 symbols</div>
+              <div class="error" v-if="!$v.form.password.maxLength">Max length is 100 symbols</div>
+            </div>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Sign in</button>
           <p class="text-center text-muted">
@@ -26,9 +35,10 @@
 </template>
 
 <script>
-import loginService from '@/services/login'
 import Logo from '@/components/Logo'
 import Footer from '@/components/PageFooter'
+import userService from '@/services/test/userservice'
+import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LoginPage',
@@ -38,27 +48,40 @@ export default {
         email: '',
         password: ''
       },
-      errorMessage: ''
+      errorMessage: '',
+      token: ''
     }
   },
   components: {
     Logo,
     Footer
   },
+  validations: {
+    form: {
+      email: {
+        required,
+        email,
+        maxLength: maxLength(100)
+      },
+      password: {
+        required,
+        minLength: minLength(2),
+        maxLength: maxLength(30)
+      }
+    }
+  },
   methods: {
     submitForm () {
-      loginService
-        .register(this.form)
-        .then((data) => {
-          // localStorage.token = req.data.token
-          console.log(data)
-          localStorage.dataFromReq = data
-          this.$router.push({ name: 'HomePage' })
-        })
-        .catch(error => {
-          this.errorMessage = 'Failed to login. Reason: ' + (error.message ? error.message : 'Uknown') + '.'
-          // delete localStorage.token
-        })
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+
+      userService.login(this.form).then(() => {
+        this.$router.push({ name: 'HomePage' })
+      }).catch((error) => {
+        this.errorMessage = error.message
+      })
     }
   }
 }

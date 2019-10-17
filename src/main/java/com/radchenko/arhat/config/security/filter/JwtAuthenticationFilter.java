@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -48,7 +49,8 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication auth) {
-        UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+        UserDetails user = (UserDetails) auth.getPrincipal();
+        String role = user.getAuthorities().iterator().next().getAuthority();
 
         String token = Jwts.builder()
                 .setSubject(user.getUsername())
@@ -58,5 +60,6 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 .compact();
 
         response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader("roles", role);
     }
 }

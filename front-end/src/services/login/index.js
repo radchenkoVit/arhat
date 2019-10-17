@@ -1,13 +1,9 @@
 import axios from 'axios'
 
 export default {
-  register (detail) {
-    return new Promise((resolve, reject) => {
-      axios.post('/api/auth/login', detail).then(({ data }) => {
-        resolve(data)
-      }).catch((error) => {
-        reject(error)
-      })
+  register (user) {
+    return axios.post('/api/auth/login', user).then(response => {
+      localStorage.setItem('token', JSON.stringify(response.headers['authorization']))
     })
   }
 }
