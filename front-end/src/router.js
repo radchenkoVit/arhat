@@ -6,7 +6,7 @@ import HomePage from '@/views/HomePage'
 import AdminPage from '@/views/AdminPage'
 import NotFoundPage from '@/views/NotFound'
 import Role from '@/model/role'
-import UserService from '@/services/test/userservice'
+import userService from '@/services/test/userservice'
 import ForbiddenPage from '@/views/Forbidden'
 
 Vue.use(Router)
@@ -50,9 +50,9 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const { roles } = to.meta
-  const authificated = UserService.authificatedSubject ? UserService.authificatedSubject.value : null
-  const currentUserRole = UserService.userRoles ? UserService.userRoles.replace(/"/g, '') : null
-  const currentUserToken = UserService.userToken
+  const authificated = userService.authificatedSubject ? userService.authificatedSubject.value : null
+  const currentUserRole = userService.userRoles ? userService.userRoles.replace(/"/g, '') : null
+  const currentUserToken = userService.userToken
 
   if (authificated === false) {
     return next({ path: '/login' })

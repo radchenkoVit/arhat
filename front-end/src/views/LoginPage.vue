@@ -83,17 +83,6 @@ export default {
         this.errorMessage = error.message
       })
     }
-  },
-  mounted () {
-    // should check if it's token valid for example
-    if (localStorage.getItem('token')) {
-      try {
-        this.token = JSON.parse(localStorage.getItem('token'))
-      } catch (e) {
-        localStorage.removeItem('token')
-        this.token = ''
-      }
-    }
   }
 }
 </script>
