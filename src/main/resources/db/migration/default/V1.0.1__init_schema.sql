@@ -13,8 +13,10 @@ CREATE TABLE roles (
 CREATE TABLE users (
     id IDENTITY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
+    activation_code VARCHAR(100),
+    active BOOLEAN DEFAULT FALSE,
     roles_id INT NOT NULL,
     CONSTRAINT users_PK PRIMARY KEY (id),
     CONSTRAINT users_roles_FK FOREIGN KEY (roles_id) REFERENCES roles

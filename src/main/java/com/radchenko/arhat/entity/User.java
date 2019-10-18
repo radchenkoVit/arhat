@@ -20,6 +20,10 @@ public class User {
     private String email;
     @Column(length = 100,  nullable = false)
     private String password;
+    @Column(length = 100, name = "activation_code")
+    private String activationCode;
+    @Column(columnDefinition = "false")
+    private boolean active;
     @ManyToOne
     @JoinColumn(name = "roles_id")
     private Role role;

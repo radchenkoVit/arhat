@@ -1,5 +1,6 @@
 package com.radchenko.arhat.service;
 
+import com.radchenko.arhat.entity.User;
 import com.radchenko.arhat.exceptions.BrokenRequestException;
 import com.radchenko.arhat.exceptions.NotFoundEntityException;
 import com.radchenko.arhat.repository.UserRepository;
@@ -42,5 +43,14 @@ public class UserService {
                 .stream()
                 .map(u -> mapper.map(u, UserDto.class))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void activateUser(String code) {
+        User user  = userRepository
+                .findByActivationCode(code)
+                .orElseThrow(() -> new NotFoundEntityException("Activation code not exist"));
+
+        user.setActive(true);
     }
 }
