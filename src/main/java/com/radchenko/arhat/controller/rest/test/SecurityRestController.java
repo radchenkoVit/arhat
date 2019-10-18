@@ -17,4 +17,9 @@ public class SecurityRestController {
     public String onlyAdmin() {
         return "only admin";
     }
+
+    @GetMapping(value = "/authenticated")
+    public String authenticated() {
+        return "authenticated";
+    }
 }

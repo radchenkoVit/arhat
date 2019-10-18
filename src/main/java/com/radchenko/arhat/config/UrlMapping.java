@@ -7,5 +7,6 @@ public final class UrlMapping {
         throw new OperationNotSupportedException();
     }
 
+    public static final String LOGIN_ENDPOINT = "/api/auth/login";
     public static final String SIGN_UP_REST_ENDPOINT = "/api/users";
 }
