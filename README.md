@@ -27,15 +27,23 @@ The following guides illustrate how to use some features concretely:
 
 ### HOW TO RUN APPLICATION
 
-Profiles:
+##Profiles:
 
 * DEV:
     * Requires MySQL DB with schema `arhat` --> for more information take a look at `application-dev.properties`
 
-Back-end:
+##Back-end:
 
 * Run application with specific profile add -Dspring.profile.active=runtime in VM options
 
-Front-end:
+##Front-end:
 
 * Go to front-end package and execute command: `npm run serve`
+
+## Commands
+
+- Use `mvn install` to build both the front-end and the back-end
+- Use `mvn test` to run the tests of the back-end and the front-end
+- Use `mvn spring-boot:run` to start the back-end
+- Use `npm run serve` inside the `front-end` directory to start the front-end
+- Use `java -jar target/app-0.0.1-SNAPSHOT.jar` to start the bundled application

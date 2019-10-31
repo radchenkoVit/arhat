@@ -9,6 +9,7 @@
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" v-model="form.email" />
             <div class="field-error" v-if="$v.form.email.$dirty">
+              <div class="error" v-if="!$v.form.email.email">Specify email in form youremail@domain.com</div>
               <div class="error" v-if="!$v.form.email.required">Email is required</div>
               <div class="error" v-if="!$v.form.email.maxLength">Max length is 100 symbols</div>
             </div>
@@ -80,7 +81,7 @@ export default {
       userService.login(this.form).then(() => {
         this.$router.push({ name: 'HomePage' })
       }).catch((error) => {
-        this.errorMessage = error.message
+        this.errorMessage = error.message.includes('headers') ? 'Somethins went wrong' : error.message
       })
     }
   }
