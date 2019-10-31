@@ -38,6 +38,7 @@ public class RegistrationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(roleRepository.findById(2L).get());//FIXME default role = USER
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setActive(true);//TODO -> make false by default for production
         userRepository.save(user);
 
         //TODO: move logic to controller?

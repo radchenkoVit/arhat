@@ -3,8 +3,8 @@
       <Header/>
       <h1 class="page-title">Home Page</h1>
       <button v-on:click="admin">Admin click</button>
-      <button v-on:click="user">User click</button>
-      <button v-on:click="anybode">Authorized click</button>
+      <button v-on:click="user">User-Admin click</button>
+      <button v-on:click="anybody">Authorized click</button>
       <p v-if="responseString"> {{ responseString }} </p>
   </div>
 </template>
@@ -34,8 +34,8 @@ export default {
         this.responseString = response.data
       })
     },
-    anybode () {
-      return axios.post('/api/health/private').then(response => {
+    anybody () {
+      return axios.post('/api/secure/authenticated').then(response => {
         this.responseString = response.data
       })
     }
