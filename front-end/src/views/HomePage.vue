@@ -26,17 +26,26 @@ export default {
   methods: {
     admin () {
       return axios.post('/api/secure/admin').then(response => {
+        console.log(response)
         this.responseString = response.data
+      }).catch(error => {
+        console.log(error)
       })
     },
     user () {
       return axios.post('/api/secure/useradmin').then(response => {
+        console.log(response)
         this.responseString = response.data
+      }).catch(error => {
+        console.log(error)
       })
     },
     anybody () {
       return axios.post('/api/secure/authenticated').then(response => {
+        console.log(response)
         this.responseString = response.data
+      }).catch(error => {
+        console.log(error)
       })
     }
   }

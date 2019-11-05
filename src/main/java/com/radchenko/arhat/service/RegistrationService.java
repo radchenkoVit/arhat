@@ -1,7 +1,6 @@
 package com.radchenko.arhat.service;
 
 import com.radchenko.arhat.entity.User;
-import com.radchenko.arhat.repository.RoleRepository;
 import com.radchenko.arhat.repository.UserRepository;
 import com.radchenko.arhat.service.mail.MailSenderService;
 import com.radchenko.arhat.utils.RegistrationMailHelper;
@@ -17,15 +16,13 @@ import java.util.UUID;
 @Service
 public class RegistrationService {
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private ModelMapper mapper;
     private BCryptPasswordEncoder passwordEncoder;
     private MailSenderService mailSenderService;
 
     @Autowired
-    public RegistrationService(UserRepository userRepository, RoleRepository roleRepository, ModelMapper mapper, BCryptPasswordEncoder passwordEncoder, MailSenderService mailSenderService) {
+    public RegistrationService(UserRepository userRepository, ModelMapper mapper, BCryptPasswordEncoder passwordEncoder, MailSenderService mailSenderService) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
         this.mailSenderService = mailSenderService;
@@ -36,7 +33,7 @@ public class RegistrationService {
         User user = mapper.map(request, User.class);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(roleRepository.findById(2L).get());//FIXME default role = USER
+        user.setRole("USER");//FIXME default role = USER
         user.setActivationCode(UUID.randomUUID().toString());
         user.setActive(true);//TODO -> make false by default for production
         userRepository.save(user);

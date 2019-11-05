@@ -4,12 +4,6 @@ DROP TABLE if EXISTS groups;
 DROP TABLE if EXISTS users_groups;
 DROP TABLE if EXISTS attendances;
 
-CREATE TABLE roles (
-    id IDENTITY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    CONSTRAINT roles_PK PRIMARY KEY (id)
-);
-
 CREATE TABLE users (
     id IDENTITY,
     name VARCHAR(100) NOT NULL,

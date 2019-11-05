@@ -2,9 +2,7 @@ package com.radchenko.arhat.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.radchenko.arhat.config.security.SecurityConstants;
-import com.radchenko.arhat.service.security.UserPrincipal;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
