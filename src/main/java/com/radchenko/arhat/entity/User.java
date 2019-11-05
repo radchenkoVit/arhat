@@ -24,7 +24,6 @@ public class User {
     private String activationCode;
     @Column(columnDefinition = "false")
     private boolean active;
-    @ManyToOne
-    @JoinColumn(name = "roles_id")
-    private Role role;
+    @Column(length = 100,  nullable = false)
+    private String role;
 }

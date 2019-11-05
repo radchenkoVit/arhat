@@ -15,11 +15,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority authority =  Optional
-                .of(user.getRole())
-                .map(role -> (GrantedAuthority) role::getName)
-                .orElse(null);
-
+        GrantedAuthority authority = (GrantedAuthority) () -> user.getRole();
         return Collections.singletonList(authority);
     }
 

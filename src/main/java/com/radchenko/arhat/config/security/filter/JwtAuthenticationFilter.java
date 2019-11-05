@@ -2,11 +2,13 @@ package com.radchenko.arhat.config.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.radchenko.arhat.config.security.SecurityConstants;
+import com.radchenko.arhat.config.security.jwt.JwtTokenProvider;
 import com.radchenko.arhat.service.security.UserPrincipal;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+
+    @Autowired
+    public JwtTokenProvider jwtTokenProvider;
 
     public JwtAuthenticationFilter(String url, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url, "POST"));
@@ -54,7 +59,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
         String token = Jwts.builder()
                 .setSubject(user.getUsername())
-                .claim("authorities", user.getAuthorities())
+                .claim("roles", role)
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
