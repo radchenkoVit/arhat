@@ -24,6 +24,7 @@ public class User {
     private String activationCode;
     @Column(columnDefinition = "false")
     private boolean active;
-    @Column(length = 100,  nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 100,  nullable = false, name = "role")
+    private Role role;
 }

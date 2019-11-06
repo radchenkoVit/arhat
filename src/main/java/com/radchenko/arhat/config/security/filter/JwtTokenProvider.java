@@ -1,8 +1,9 @@
-package com.radchenko.arhat.config.security.jwt;
+package com.radchenko.arhat.config.security.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,20 +23,20 @@ public class JwtTokenProvider {
     @Value("${app.jwt.secret}")
     private String jwtSecret;
 
+    @Getter
     @Value("${app.jwt.token.prefix}")
     private String jwtTokenPrefix;
 
+    @Getter
     @Value("${app.jwt.header.string}")
     private String jwtHeaderString;
 
     @Value("${app.jwt.expiration-in-ms}")
     private Long jwtExpirationInMs;
 
-    public String generateToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining());
-
-        return Jwts.builder().setSubject(authentication.getName())
-                .claim("roles", authorities)
+    public String generateToken(String email, String roles) {
+        return Jwts.builder().setSubject(email)
+                .claim("roles", roles)
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
@@ -45,6 +46,7 @@ public class JwtTokenProvider {
         if (token == null) {
             return null;
         }
+
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         String username = claims.getSubject();
         List<GrantedAuthority> authorities = Arrays.stream(claims.get("roles").toString().split(","))
@@ -60,10 +62,8 @@ public class JwtTokenProvider {
             return false;
         }
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        if (claims.getExpiration().before(new Date())) {
-            return false;
-        }
-        return true;
+
+        return !claims.getExpiration().before(new Date());
     }
 
     private String resolveToken(HttpServletRequest request) {

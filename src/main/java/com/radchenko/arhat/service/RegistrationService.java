@@ -1,5 +1,6 @@
 package com.radchenko.arhat.service;
 
+import com.radchenko.arhat.entity.Role;
 import com.radchenko.arhat.entity.User;
 import com.radchenko.arhat.repository.UserRepository;
 import com.radchenko.arhat.service.mail.MailSenderService;
@@ -33,7 +34,7 @@ public class RegistrationService {
         User user = mapper.map(request, User.class);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");//FIXME default role = USER
+        user.setRole(Role.ROLE_USER);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setActive(true);//TODO -> make false by default for production
         userRepository.save(user);

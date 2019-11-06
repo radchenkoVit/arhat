@@ -1,9 +1,8 @@
 package com.radchenko.arhat.config.security;
 
-import com.radchenko.arhat.config.security.filter.AuthorizationFilter;
 import com.radchenko.arhat.config.security.filter.JwtAuthenticationFilter;
-import com.radchenko.arhat.config.security.jwt.JwtAuthorizationFilter;
-import com.radchenko.arhat.config.security.jwt.JwtTokenProvider;
+import com.radchenko.arhat.config.security.filter.JwtAuthorizationFilter;
+import com.radchenko.arhat.config.security.filter.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -41,13 +40,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/*").permitAll()
                     .antMatchers("/h2_console/**").permitAll()
                     .and().authorizeRequests()
-                        .antMatchers("/api/secure/useradmin").hasAnyRole("USER", "ADMIN")//FIXME doens't work
-                        .antMatchers("/api/secure/admin").hasAnyRole("ADMIN")//FIXME doens't work
+                        .antMatchers("/api/secure/useradmin").hasAnyRole("USER", "ADMIN")
+                        .antMatchers("/api/secure/admin").hasAnyRole("ADMIN")
                         .antMatchers("/api/secure/authenticated").authenticated()
-                        .antMatchers("/api/health/private").authenticated().and()
-                .addFilterAt(new JwtAuthenticationFilter(LOGIN_ENDPOINT, authenticationManager()), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokenProvider))
-                .authorizeRequests()
+                    .and()
+                        .addFilterAt(new JwtAuthenticationFilter(LOGIN_ENDPOINT, authenticationManager(), jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                        .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokenProvider))
+                    .authorizeRequests()
                 .and()
                     .formLogin()
                     .loginPage("/login").permitAll()
