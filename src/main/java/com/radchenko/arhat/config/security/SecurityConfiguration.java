@@ -1,8 +1,8 @@
 package com.radchenko.arhat.config.security;
 
-import com.radchenko.arhat.config.security.filter.JwtAuthenticationFilter;
-import com.radchenko.arhat.config.security.filter.JwtAuthorizationFilter;
-import com.radchenko.arhat.config.security.filter.JwtTokenProvider;
+import com.radchenko.arhat.config.security.filter.jwt.JwtAuthenticationFilter;
+import com.radchenko.arhat.config.security.filter.jwt.JwtAuthorizationFilter;
+import com.radchenko.arhat.config.security.filter.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

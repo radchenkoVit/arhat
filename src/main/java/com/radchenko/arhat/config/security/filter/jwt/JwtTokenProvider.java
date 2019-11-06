@@ -1,4 +1,4 @@
-package com.radchenko.arhat.config.security.filter;
+package com.radchenko.arhat.config.security.filter.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

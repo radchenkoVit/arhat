@@ -1,4 +1,4 @@
-package com.radchenko.arhat.config.security.filter;
+package com.radchenko.arhat.config.security.filter.jwt;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;

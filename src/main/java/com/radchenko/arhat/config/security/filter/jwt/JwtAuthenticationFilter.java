@@ -1,4 +1,4 @@
-package com.radchenko.arhat.config.security.filter;
+package com.radchenko.arhat.config.security.filter.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
