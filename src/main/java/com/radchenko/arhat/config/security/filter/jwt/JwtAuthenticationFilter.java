@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         String role = user.getAuthorities().iterator().next().getAuthority();
         String token = jwtTokenProvider.generateToken(user.getUsername(), role);
 
-        response.addHeader(jwtTokenProvider.getJwtHeaderString(), jwtTokenProvider.getJwtTokenPrefix() + token);
+        response.addHeader(jwtTokenProvider.getJwtHeaderString(), (jwtTokenProvider.getJwtTokenPrefix() + token).trim());
         response.addHeader("roles", role);
     }
 }
