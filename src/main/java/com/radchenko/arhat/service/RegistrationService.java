@@ -45,7 +45,7 @@ public class RegistrationService {
 
         //TODO: move logic to controller?
         Map<String, Object> model = new HashMap<>();
-        model.put("activation_link", String.format("http://%s:%s/activate/%s", mailProperties.getDomain(), mailProperties.getPort(), user.getActivationCode()));
+        model.put("activation_link", mailProperties.generateActivationCode(user.getActivationCode()));
         mailManager.send(user.getEmail(),"Activate your account", "activation-mail.ftl", model);
         //TODO make subject, and temlpate name as an Enum
     }

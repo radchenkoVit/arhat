@@ -18,4 +18,8 @@ public class MailProperties {
 
     @Value("${server.port}")
     public String port;
+
+    public String generateActivationCode(String code) {
+        return String.format("http://%s:%s/activate/%s", domain, port, code);
+    }
 }

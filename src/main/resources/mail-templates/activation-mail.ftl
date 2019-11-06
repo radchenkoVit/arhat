@@ -6,6 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
-    <p>To activate your account follow this <a href="${activation_link}">link</a><</p>
+    <p>To activate your account follow this <a href="${activation_link}">link</a></p>
 </body>
 </html>
