@@ -8,6 +8,7 @@ CREATE TABLE users (
     activation_code VARCHAR(100),
     active BOOLEAN DEFAULT FALSE,
     role VARCHAR(100) NOT NULL,
+    created_date TIMESTAMP NOT NULL,
     CONSTRAINT users_PK PRIMARY KEY (id)
     );
 

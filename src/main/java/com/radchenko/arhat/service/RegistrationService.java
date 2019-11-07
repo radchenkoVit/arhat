@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -41,6 +42,7 @@ public class RegistrationService {
         user.setRole(Role.ROLE_USER);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setActive(true);//TODO -> make false by default for production
+        user.setCreatedDate(LocalDate.now());
         userRepository.save(user);
 
         //TODO: move logic to controller?
