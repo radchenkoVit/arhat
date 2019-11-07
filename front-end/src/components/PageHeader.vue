@@ -32,11 +32,13 @@ export default {
   },
   methods: {
     logout () {
-      userService.logout().then(() => {
-        this.$router.push({ name: 'LoginPage' })
-      }).catch((error) => {
-        console.log(error)
-      })
+      userService.logout()
+      this.$router.push({ name: 'LoginPage' })
+      // userService.logout().then(() => {
+      //   this.$router.push({ name: 'LoginPage' })
+      // }).catch((error) => {
+      //   console.log(error)
+      // })
     }
   }
 }
