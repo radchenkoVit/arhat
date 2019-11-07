@@ -31,7 +31,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto findByEmailContains(String email) {
-        if (email != null && !email.isEmpty()) {
+        if (email != null && email.isEmpty()) {
             throw new BrokenRequestException("Email is empty");
         }
 

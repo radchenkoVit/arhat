@@ -12,6 +12,9 @@
 
       <div class="navbar-nav ml-auto">
         <li class="nav-item">
+          {{ user.name }}
+        </li>
+        <li class="nav-item">
           <a v-on:click="logout" class="nav-link"> LogOut </a>
         </li>
       </div>
@@ -22,17 +25,29 @@
 <script>
 import Role from '@/model/role'
 import userService from '@/services/test/userservice'
+// eslint-disable-next-line
+import meService from '@/services/user/meservice'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Header',
   computed: {
+    ...mapGetters([
+      'user'
+    ]),
     isAdmin () {
       return userService.userRoles.replace(/"/g, '') === Role.ADMIN
+    }
+  },
+  created () {
+    if (!this.user.authenticated) {
+      this.$store.dispatch('getMyData')
     }
   },
   methods: {
     logout () {
       userService.logout()
+      this.$store.dispatch('logout')
       this.$router.push({ name: 'LoginPage' })
       // userService.logout().then(() => {
       //   this.$router.push({ name: 'LoginPage' })
