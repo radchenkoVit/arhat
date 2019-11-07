@@ -1,14 +1,4 @@
 DROP TABLE if EXISTS users;
-DROP TABLE if EXISTS roles;
-DROP TABLE if EXISTS groups;
-DROP TABLE if EXISTS users_groups;
-DROP TABLE if EXISTS attendances;
-
-CREATE TABLE roles (
-    id IDENTITY,
-    name VARCHAR(100) NOT NULL UNIQUE,
-    CONSTRAINT roles_PK PRIMARY KEY (id)
-);
 
 CREATE TABLE users (
     id IDENTITY,
@@ -17,10 +7,10 @@ CREATE TABLE users (
     password VARCHAR(100) NOT NULL,
     activation_code VARCHAR(100),
     active BOOLEAN DEFAULT FALSE,
-    roles_id INT NOT NULL,
-    CONSTRAINT users_PK PRIMARY KEY (id),
-    CONSTRAINT users_roles_FK FOREIGN KEY (roles_id) REFERENCES roles
-);
+    role VARCHAR(100) NOT NULL,
+    created_date TIMESTAMP NOT NULL,
+    CONSTRAINT users_PK PRIMARY KEY (id)
+    );
 
 --CREATE TABLE groups (
 --    id IDENTITY,

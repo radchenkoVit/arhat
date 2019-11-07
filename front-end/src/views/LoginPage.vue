@@ -79,6 +79,7 @@ export default {
       }
 
       userService.login(this.form).then(() => {
+        console.log('inside after loging page')
         this.$router.push({ name: 'HomePage' })
       }).catch((error) => {
         this.errorMessage = error.message.includes('headers') ? 'Somethins went wrong' : error.message

@@ -33,12 +33,12 @@ class UserService {
   }
 
   logout () {
-    return axios.post('/api/auth/logout').then(response => {
-      localStorage.removeItem(tokenName)
-      localStorage.removeItem(roles)
-      currentUserToken.next(null)
-      authificatedSubject.next(false)
-    })
+    // return axios.post('/api/auth/logout').then(response => {
+    localStorage.removeItem(tokenName)
+    localStorage.removeItem(roles)
+    currentUserToken.next(null)
+    authificatedSubject.next(false)
+    // })
   }
 }
 

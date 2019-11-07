@@ -1,10 +1,10 @@
 package com.radchenko.arhat.service;
 
+import com.radchenko.arhat.config.MailProperties;
+import com.radchenko.arhat.entity.Role;
 import com.radchenko.arhat.entity.User;
-import com.radchenko.arhat.repository.RoleRepository;
 import com.radchenko.arhat.repository.UserRepository;
-import com.radchenko.arhat.service.mail.MailSenderService;
-import com.radchenko.arhat.utils.RegistrationMailHelper;
+import com.radchenko.arhat.service.mail.MailManager;
 import com.radchenko.arhat.web.contoller.user.model.RegistrationRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +12,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class RegistrationService {
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
     private ModelMapper mapper;
     private BCryptPasswordEncoder passwordEncoder;
-    private MailSenderService mailSenderService;
+    private MailManager mailManager;
+    private MailProperties mailProperties;
 
     @Autowired
-    public RegistrationService(UserRepository userRepository, RoleRepository roleRepository, ModelMapper mapper, BCryptPasswordEncoder passwordEncoder, MailSenderService mailSenderService) {
+    public RegistrationService(UserRepository userRepository, ModelMapper mapper, BCryptPasswordEncoder passwordEncoder, MailManager mailManager, MailProperties mailProperties) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
-        this.mailSenderService = mailSenderService;
+        this.mailManager = mailManager;
+        this.mailProperties = mailProperties;
     }
 
     @Transactional
@@ -36,13 +39,16 @@ public class RegistrationService {
         User user = mapper.map(request, User.class);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(roleRepository.findById(2L).get());//FIXME default role = USER
+        user.setRole(Role.ROLE_USER);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setActive(true);//TODO -> make false by default for production
+        user.setCreatedDate(LocalDate.now());
         userRepository.save(user);
 
         //TODO: move logic to controller?
-        String messageBody = RegistrationMailHelper.getActivationBody(user.getActivationCode());
-        mailSenderService.send(user.getEmail(), "Activation code", messageBody);
+        Map<String, Object> model = new HashMap<>();
+        model.put("activation_link", mailProperties.generateActivationCode(user.getActivationCode()));
+        mailManager.send(user.getEmail(),"Activate your account", "activation-mail.ftl", model);
+        //TODO make subject, and temlpate name as an Enum
     }
 }

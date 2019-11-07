@@ -7,7 +7,7 @@ import AdminPage from '@/views/AdminPage'
 import NotFoundPage from '@/views/NotFound'
 import Role from '@/model/role'
 import userService from '@/services/test/userservice'
-import ForbiddenPage from '@/views/Forbidden'
+import UnathorizedPage from '@/views/UnathorizedPage'
 
 Vue.use(Router)
 
@@ -36,9 +36,9 @@ const router = new Router({
     component: AdminPage,
     meta: { roles: [Role.ADMIN] }
   }, {
-    path: '/forbidden',
-    name: 'forbidden',
-    component: ForbiddenPage
+    path: '/unathorized',
+    name: 'unathorized',
+    component: UnathorizedPage
   }, {
     path: '/404',
     component: NotFoundPage
@@ -54,18 +54,25 @@ router.beforeEach((to, from, next) => {
   const currentUserRole = userService.userRoles ? userService.userRoles.replace(/"/g, '') : null
   const currentUserToken = userService.userToken
 
+  console.log('authificated: ' + authificated)
+
   if (authificated === false) {
+    console.log('forward to login')
     return next({ path: '/login' })
   }
+  console.log('currentUserToken: ' + currentUserToken)
+  console.log('currentUserRole: ' + currentUserRole)
 
   // eslint-disable-next-line eqeqeq, will be okey if values Falthy type
-  if (currentUserToken === false || currentUserRole === false) {
+  if (currentUserToken == false || currentUserRole == false) {
+    console.log('forward to login')
     return next({ path: '/login' })
   }
 
   if (roles) {
     if (!roles.includes(currentUserRole)) {
-      return next({ name: 'forbidden' })
+      console.log('forward to unathorized')
+      return next({ name: 'unathorized' })
     }
   }
 

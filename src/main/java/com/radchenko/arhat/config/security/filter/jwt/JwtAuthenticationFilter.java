@@ -1,12 +1,7 @@
-package com.radchenko.arhat.config.security.filter;
+package com.radchenko.arhat.config.security.filter.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.radchenko.arhat.config.security.SecurityConstants;
-import com.radchenko.arhat.service.security.UserPrincipal;
 import com.radchenko.arhat.web.contoller.user.model.UserDto;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,17 +15,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+    private JwtTokenProvider jwtTokenProvider;
 
-    public JwtAuthenticationFilter(String url, AuthenticationManager authManager) {
+    public JwtAuthenticationFilter(String url, AuthenticationManager authManager, JwtTokenProvider jwtTokenProvider) {
         super(new AntPathRequestMatcher(url, "POST"));
         setAuthenticationManager(authManager);
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             UserDto creds = new ObjectMapper().readValue(request.getInputStream(), UserDto.class);
 
@@ -51,15 +47,9 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
                                             FilterChain chain, Authentication auth) {
         UserDetails user = (UserDetails) auth.getPrincipal();
         String role = user.getAuthorities().iterator().next().getAuthority();
+        String token = jwtTokenProvider.generateToken(user.getUsername(), role);
 
-        String token = Jwts.builder()
-                .setSubject(user.getUsername())
-                .claim("authorities", user.getAuthorities())
-                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
-                .compact();
-
-        response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader(jwtTokenProvider.getJwtHeaderString(), (jwtTokenProvider.getJwtTokenPrefix() + token).trim());
         response.addHeader("roles", role);
     }
 }
