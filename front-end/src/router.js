@@ -49,6 +49,7 @@ const router = new Router({
 )
 
 router.beforeEach((to, from, next) => {
+  // TODO, HOW to get info from vuex
   const { roles } = to.meta
   const authificated = userService.authificatedSubject ? userService.authificatedSubject.value : null
   const currentUserRole = userService.userRoles ? userService.userRoles.replace(/"/g, '') : null

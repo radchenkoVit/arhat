@@ -11,7 +11,8 @@ Vue.use(Vuex)
 const state = {
   user: {
     name: null,
-    authenticated: false
+    authenticated: false,
+    role: ''
   }
 }
 

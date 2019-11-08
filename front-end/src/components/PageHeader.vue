@@ -3,16 +3,16 @@
       <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a href="/home" class="nav-link">Home</a>
+          <a v-on:click="home" class="nav-link">Home</a>
         </li>
         <li class="nav-item" v-if="isAdmin">
-          <a href="/admin" class="nav-link"> Admin Panel </a>
+          <a v-on:click="admin" class="nav-link"> Admin Panel </a>
         </li>
       </div>
 
       <div class="navbar-nav ml-auto">
         <li class="nav-item">
-          {{ user.name }}
+          <span class="nav-link">{{ user.name }}</span>
         </li>
         <li class="nav-item">
           <a v-on:click="logout" class="nav-link"> LogOut </a>
@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     logout () {
-      userService.logout()
       this.$store.dispatch('logout')
       this.$router.push({ name: 'LoginPage' })
       // userService.logout().then(() => {
@@ -54,6 +53,12 @@ export default {
       // }).catch((error) => {
       //   console.log(error)
       // })
+    },
+    home () {
+      this.$router.push({ name: 'HomePage' })
+    },
+    admin () {
+      this.$router.push({ name: 'AdminPage' })
     }
   }
 }

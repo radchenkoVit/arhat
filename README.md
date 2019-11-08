@@ -47,3 +47,9 @@ The following guides illustrate how to use some features concretely:
 - Use `mvn spring-boot:run` to start the back-end
 - Use `npm run serve` inside the `front-end` directory to start the front-end
 - Use `java -jar target/app-0.0.1-SNAPSHOT.jar` to start the bundled application
+
+TO run application with different profile use VMoption: -Dspring.profiles.active=dev
+
+## Swagger
+    
+    To reach swagger go to localhost:8000/swagger-ui.htnl, port - could be changed due to properties
